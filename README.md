@@ -4,7 +4,7 @@ Lua Library to work & fiddle with Windows Registry by using the os.execute funct
 
 ## Limitations
 
-Because it uses OS commands, it requires double sequences, these are not integrated. However you can use [block comments](https://www.lua.org/pil/1.3.html).
+Because it uses OS commands, it requires double sequences, these are not integrated. However you can use [block comments](https://www.lua.org/pil/1.3.html) OR the backlash escape char \\.
 
 
 ## Authors
