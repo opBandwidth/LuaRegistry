@@ -9,7 +9,7 @@ local function shellExecute(cmd)
 
     outfile = os.getenv("TEMP") .. outfile
     errfile = os.getenv("TEMP") .. errfile
-    cmd = cmd:format(" >\"%s \" 2>\"%s\"", outfile, errfile)
+    cmd = cmd .. [[ >"]]..outfile..[[" 2>"]]..errfile..[["]]
 
     local success, retcode = os.execute(cmd)
 
@@ -17,7 +17,7 @@ local function shellExecute(cmd)
 
     local fh = io.open(outfile)
     if fh then
-        outfile = fh:read("*a")
+        outcontent = fh:read("*a")
         fh:close()
     end
     remove(outfile)
@@ -35,7 +35,7 @@ end
 local function split(str, pat)
     local result, regex = {}, ("([^%s]+)"):format(pat)
     for each in str:gmatch(regex) do
-        table.insert(each, result)
+        table.insert(result, each)
     end
     return result
 end
@@ -125,7 +125,7 @@ end
 function LuaRegistry.deleteKey(key)
     local success, ec, out, err = shellExecute("reg.exe delete " .. wrapString(key) .. " /f")
     if not success then
-        if not LuaRegistry.getkey(key) then
+        if not LuaRegistry.getKey(key) then
             return true
         end
         return nil, split(err, "\n")[1]
@@ -169,8 +169,11 @@ end
 
 function LuaRegistry.getValue(key, name)
     local keyt = LuaRegistry.getKey(key)
-    if keyt and keyt[name] then
-        return keyt[name].value, keyt[name].type
+    if keyt then
+        local keytName = keyt[name]
+        if keytName then
+            return keytName.value, keytName.type
+        end
     end
     return nil
 end
