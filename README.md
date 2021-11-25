@@ -1,11 +1,47 @@
 # LuaRegistry
 
-Lua Library to work & fiddle with Windows Registry by using the os.execute function.
+Lua Library to work & fiddle with Windows Registry by using the `os.execute` function.
 
 ## Limitations
 
-Because it uses OS commands, it requires double sequences, these are not integrated. However you can use [block comments](https://www.lua.org/pil/1.3.html) OR the backlash escape char `\\`.
+Because it uses OS commands, it requires double sequences, these are not integrated (working on it). However you can use block comments ``[[]]`` OR the backlash escape char `\\`.
 
+## Examples
+Get content of a full registry key.
+```lua
+-- require the library module
+local LuaRegistry = require("lr")
+
+-- get the Microsoft full key, containing it's sub-keys, values, etc
+local Microsoft = LuaRegistry.getKey("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft")
+
+-- print what's in Microsoft key
+for i, v in next, Microsoft do
+    print(i, v)
+end
+
+-- print Microsoft's values
+for i, v in next, Microsoft.values do
+    print(i, v)
+end
+
+-- print what's in Microsoft subkeys
+for i, v in next, Microsoft.keys do
+    print(i, v)
+end
+```
+Get a registry key value.
+```lua
+-- require the library module
+local LuaRegistry = require("lr")
+
+-- print cryptography's MachineGuid
+print(LuaRegistry.getValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography", "MachineGuid"))
+```
+
+## Documentation
+
+Visit the [Wiki](https://github.com/opBandwidth/LuaRegistry/wiki) page for Documentation.
 
 ## Authors
 
