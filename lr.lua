@@ -9,7 +9,7 @@ local function shellExecute(cmd)
 
     outfile = os.getenv("TEMP") .. outfile
     errfile = os.getenv("TEMP") .. errfile
-    cmd = cmd .. [[ >"]]..outfile..[[" 2>"]]..errfile..[["]]
+    cmd = cmd .. ' >"' .. outfile.. '" 2>"' .. errfile .. '"'
 
     local success, retcode = os.execute(cmd)
 
